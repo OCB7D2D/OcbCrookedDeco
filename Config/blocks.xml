@@ -1,0 +1,17 @@
+<configs>
+
+	<!-- Report potential blocks -->
+	<!--
+	<append xpath="/blocks/block">
+		<property name="DynamicTransform" value="report"/>
+	</append>
+	-->
+
+	<!-- SuperSize potential blocks -->
+	<!--
+	<append xpath="/blocks/block">
+		<property name="DynamicTransform" value="SuperSize"/>
+	</append>
+	-->
+
+</configs>

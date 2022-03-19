@@ -23,9 +23,18 @@ public class CrookedDecoCmd : ConsoleCmdAbstract
         {
             switch (_params[0])
             {
-                case "on":
-                    break;
-                case "off":
+                case "count":
+                    int counter = 0;
+                    if (Block.list == null) break;
+                    if (!Block.BlocksLoaded) break;
+                    foreach (var block in Block.list)
+                    {
+                        if (block == null) continue;
+                        if (block.Properties == null) continue;
+                        if (block.Properties.Values == null) continue;
+                        if (block.Properties.Values.ContainsKey("DynamicTransform")) ++counter;
+                    }
+                    Log.Out("Counted {0} blocks with dynamic transform", counter);
                     break;
                 case "list":
                     Log.Out("Listing all crooked types:");

@@ -2,7 +2,6 @@
 using System;
 using System.IO;
 using HarmonyLib;
-using System.Reflection;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,7 +16,7 @@ public class CrookedDeco : IModApi
     public void InitMod(Mod mod)
     {
         Debug.Log("Loading OCB Crooked Deco/Tree Patch: " + GetType().ToString());
-        new Harmony(GetType().ToString()).PatchAll(Assembly.GetExecutingAssembly());
+        new Harmony(GetType().ToString()).PatchAll(mod.MainAssembly);
         ModEvents.GameStartDone.RegisterHandler(ReloadMapping);
         PathSettings = mod.Path + "/Settings/";
         ReloadConfig();
@@ -82,9 +81,11 @@ public class CrookedDeco : IModApi
             "DynamicTransform", out string dynamicTransform))
         {
             if (dynamicTransform.ToLower() == "none") return;
-            if (Config.TryGetValue(dynamicTransform, out CrookedConfig config))
+            if (dynamicTransform.ToLower() == "report")
+                Log.Warning("Reporting {0}", _blockValue.Block);
+            else if (Config.TryGetValue(dynamicTransform, out CrookedConfig config))
             {
-                if (config.Pass != Pass) return;
+                if (config.Pass != -1 && config.Pass != Pass) return;
                 bool toppled = config.IsToppled(_blockValue.rotation);
                 ApplyTransform(_blockPos, _blockValue, _ebcd, config, toppled);
             }
@@ -155,6 +156,69 @@ public class CrookedDeco : IModApi
             BlockEntityData _ebcd)
         {
             Transform(_blockPos, _blockValue, _ebcd, 3);
+        }
+    }
+
+    [HarmonyPatch(typeof(BlockShapeBillboardPlant))]
+    [HarmonyPatch("RenderSpinMesh")]
+    public class BlockShapeBillboardPlant_RenderSpinMesh
+    {
+
+        static readonly ulong Seed01 = StaticRandom.RandomSeed();
+        static readonly ulong Seed02 = StaticRandom.RandomSeed();
+        static readonly ulong Seed03 = StaticRandom.RandomSeed();
+        static readonly ulong Seed04 = StaticRandom.RandomSeed();
+        static readonly ulong Seed05 = StaticRandom.RandomSeed();
+
+        static void Prefix(Vector3 _drawPos,
+            ref BlockShapeBillboardPlant.RenderData _data)
+        {
+            ulong seed = Seed01;
+            StaticRandom.HashSeed(ref seed, _drawPos.x);
+            StaticRandom.HashSeed(ref seed, _drawPos.y);
+            StaticRandom.HashSeed(ref seed, _drawPos.z);
+            _data.count += StaticRandom.RangeSquare(0,
+                MeshDescription.GrassQualityPlanes, seed);
+            StaticRandom.HashSeed(ref seed, Seed02);
+            _data.scale *= StaticRandom.Range(0.8f, 1.2f, seed);
+            StaticRandom.HashSeed(ref seed, Seed03);
+            _data.rotation += StaticRandom.Range(-22.5f, 22.5f, seed);
+            StaticRandom.HashSeed(ref seed, Seed04);
+            _data.height *= StaticRandom.RangeSquare(0.9f, 1.3f, seed);
+            StaticRandom.HashSeed(ref seed, Seed05);
+            _data.sideShift += StaticRandom.RangeSquare(-.2f, .2f, seed);
+        }
+    }
+
+    [HarmonyPatch(typeof(BlockShapeBillboardPlant))]
+    [HarmonyPatch("RenderGridMesh")]
+    public class BlockShapeBillboardPlant_RenderGridMesh
+    {
+
+        static readonly ulong Seed01 = StaticRandom.RandomSeed();
+        static readonly ulong Seed02 = StaticRandom.RandomSeed();
+        static readonly ulong Seed03 = StaticRandom.RandomSeed();
+        static readonly ulong Seed04 = StaticRandom.RandomSeed();
+        static readonly ulong Seed05 = StaticRandom.RandomSeed();
+
+
+        static void Prefix(Vector3 _drawPos,
+            ref BlockShapeBillboardPlant.RenderData _data)
+        {
+            ulong seed = Seed01;
+            StaticRandom.HashSeed(ref seed, _drawPos.z);
+            StaticRandom.HashSeed(ref seed, _drawPos.y);
+            StaticRandom.HashSeed(ref seed, _drawPos.x);
+            _data.count += StaticRandom.RangeSquare(0,
+                MeshDescription.GrassQualityPlanes, seed);
+            StaticRandom.HashSeed(ref seed, Seed02);
+            _data.scale *= StaticRandom.Range(0.8f, 1.2f, seed);
+            StaticRandom.HashSeed(ref seed, Seed03);
+            _data.rotation += StaticRandom.Range(-22.5f, 22.5f, seed);
+            StaticRandom.HashSeed(ref seed, Seed04);
+            _data.height *= StaticRandom.RangeSquare(0.9f, 1.3f, seed);
+            StaticRandom.HashSeed(ref seed, Seed05);
+            _data.sideShift += StaticRandom.RangeSquare(-.2f, .2f, seed);
         }
     }
 
