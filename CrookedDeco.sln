@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32002.261
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrookedDeco", "CrookedDeco.csproj", "{15B6BBBC-5E5C-4064-B91E-26CF797E8E11}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{15B6BBBC-5E5C-4064-B91E-26CF797E8E11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15B6BBBC-5E5C-4064-B91E-26CF797E8E11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15B6BBBC-5E5C-4064-B91E-26CF797E8E11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15B6BBBC-5E5C-4064-B91E-26CF797E8E11}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F914B8CE-2A2D-4407-85CB-41ABF5BD6801}
+	EndGlobalSection
+EndGlobal
