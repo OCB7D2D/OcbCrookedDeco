@@ -91,5 +91,51 @@
     <Compile Include="Library\CrookedParser.cs" />
     <Compile Include="Library\StaticRandom.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\blocks.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Settings\appliances.cfg" />
+    <None Include="Settings\bags.cfg" />
+    <None Include="Settings\barrels.cfg" />
+    <None Include="Settings\beds.cfg" />
+    <None Include="Settings\birdnests.cfg" />
+    <None Include="Settings\boulders.cfg" />
+    <None Include="Settings\cabinets.cfg" />
+    <None Include="Settings\cactuses.cfg" />
+    <None Include="Settings\cars.cfg" />
+    <None Include="Settings\caskets.cfg" />
+    <None Include="Settings\chairs.cfg" />
+    <None Include="Settings\computers.cfg" />
+    <None Include="Settings\coolers.cfg" />
+    <None Include="Settings\debug.cfg" />
+    <None Include="Settings\gravestones.cfg" />
+    <None Include="Settings\grills.cfg" />
+    <None Include="Settings\gym.cfg" />
+    <None Include="Settings\hay.cfg" />
+    <None Include="Settings\hoists.cfg" />
+    <None Include="Settings\laundry.cfg" />
+    <None Include="Settings\lookers.cfg" />
+    <None Include="Settings\mailboxes.cfg" />
+    <None Include="Settings\mannequins.cfg" />
+    <None Include="Settings\paintings.cfg" />
+    <None Include="Settings\pallets.cfg" />
+    <None Include="Settings\parking.cfg" />
+    <None Include="Settings\pets.cfg" />
+    <None Include="Settings\piles.cfg" />
+    <None Include="Settings\plants.cfg" />
+    <None Include="Settings\playground.cfg" />
+    <None Include="Settings\posters.cfg" />
+    <None Include="Settings\rubble.cfg" />
+    <None Include="Settings\safes.cfg" />
+    <None Include="Settings\shopping.cfg" />
+    <None Include="Settings\signs.shop.cfg" />
+    <None Include="Settings\signs.street.cfg" />
+    <None Include="Settings\signs.wall.cfg" />
+    <None Include="Settings\sofas.cfg" />
+    <None Include="Settings\traps.spikes.cfg" />
+    <None Include="Settings\trees.cfg" />
+    <None Include="Settings\utilities.cfg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
