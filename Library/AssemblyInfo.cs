@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CrookedDeco")]
+[assembly: AssemblyTitle("OcbCrookedDeco")]
 [assembly: AssemblyDescription("7D2D Module")]
 [assembly: AssemblyConfiguration("Release")]
 [assembly: AssemblyCompany("OCBNET")]
-[assembly: AssemblyProduct("CrookedDeco")]
+[assembly: AssemblyProduct("OcbCrookedDeco")]
 [assembly: AssemblyCopyright("Copyright © Marcel Greter 2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

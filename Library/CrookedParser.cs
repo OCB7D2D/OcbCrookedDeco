@@ -49,7 +49,6 @@ namespace OCB
                 if (name == "DEBUG")
                 {
                     debug = bool.Parse(parsing.Substring(pos + 1));
-                    // Log.Out("Change debug to {0}", debug);
                     continue;
                 }
                 if (name != "MAP") continue;
@@ -90,7 +89,6 @@ namespace OCB
                 if (name == "DEBUG")
                 {
                     debug = bool.Parse(parsing.Substring(pos + 1));
-                    // Log.Out("Change debug to {0}", debug);
                     continue;
                 }
                 if (name == "MAP") continue;

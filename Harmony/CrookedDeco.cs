@@ -201,7 +201,6 @@ public class CrookedDeco : IModApi
         static readonly ulong Seed04 = StaticRandom.RandomSeed();
         static readonly ulong Seed05 = StaticRandom.RandomSeed();
 
-
         static void Prefix(Vector3 _drawPos,
             ref BlockShapeBillboardPlant.RenderData _data)
         {

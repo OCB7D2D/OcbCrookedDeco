@@ -4,12 +4,19 @@ This mod adds (small) random variations to decorations and blocks.
 It alters scale and rotation for configured blocks within certain
 ranges. These need to be setup individually in order to not mess
 up visual rendering. It supports nearly all block model types,
-except `Ext3dModel`, `ShapeNew` and `BillboardPlants`. For some
-of these I'll release other more specialized mods in the future.
+except `Ext3dModel` and `ShapeNew` (may added in the future).
+
+![Crooked Trees and Grass](Screens/in-game-woods-crooked.jpg)
+
+In the picture above you can see that the tree get slightly
+crooked instead of each and every tree being straight as a
+candle in the picture below (vanilla game version).
+
+![Original Trees and Grass](Screens/in-game-woods-original.jpg)
 
 ## Block Variation Settings
 
-The whole setup can be configured via config files that live
+The whole setup can be configured via config files that life
 inside the [`Settings`][2] folder (files ending with `.cfg`). The
 setup has two phases, one is to configure the *variation types*.
 Second is to map *Block names* to *variation types*.
