@@ -79,7 +79,14 @@ namespace OCB
             if (Scale == null || t == null) return;
             // Scale does not trigger the assignment operator!
             // Can't use `*=` since `Vector3*Vector3` isn't a thing.
-            t.localScale = Vector3.Scale(t.localScale, Scale.GetVector(seed));
+            // Bug: we can't apply the scale, it will accumulate on the transform.
+            // Luckily it seems we always get uniform scales to begin with.
+            // Therefore nothing lost if we just reset the scale to what we want.
+            // if (Math.Abs(t.localScale.x - 1f) > 0.0001) Log.Error("Have non uniform x scale: {0}", t.localScale.x);
+            // if (Math.Abs(t.localScale.y - 1f) > 0.0001) Log.Error("Have non uniform y scale: {0}", t.localScale.y);
+            // if (Math.Abs(t.localScale.z - 1f) > 0.0001) Log.Error("Have non uniform z scale: {0}", t.localScale.z);
+            // t.localScale = Vector3.Scale(t.localScale, Scale.GetVector(seed));
+            t.localScale = Scale.GetVector(seed);
         }
 
         public void AddRotation(Transform t, ulong seed, bool toppled = false)
@@ -88,6 +95,10 @@ namespace OCB
             {
                 // Seems to give better results than multiplying!?
                 // Quaternions and Euler always hurts my brain...
+                // var euler = t.localRotation.eulerAngles;
+                // if (Math.Abs(euler.x % 45) > 0.0001) Log.Error("Have non uniform x rotation: {0}", euler.x);
+                // if (Math.Abs(euler.y % 45) > 0.0001) Log.Error("Have non uniform x rotation: {0}", euler.y);
+                // if (Math.Abs(euler.z % 45) > 0.0001) Log.Error("Have non uniform x rotation: {0}", euler.z);
                 t.localRotation = Quaternion.Euler(t.localRotation
                     .eulerAngles + rot.GetVector(seed));
             }

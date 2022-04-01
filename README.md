@@ -77,6 +77,10 @@ created blocks will have the latest config applied.
 
 ## Changelog
 
+### Version 0.2.0
+
+- Fix scales accumulating over time
+
 ### Version 0.1.0
 
 - Initial version
