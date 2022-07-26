@@ -4,6 +4,8 @@ using System.IO;
 using HarmonyLib;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Reflection.Emit;
+using System.Reflection;
 
 public class CrookedDeco : IModApi
 {
@@ -15,9 +17,9 @@ public class CrookedDeco : IModApi
 
     public void InitMod(Mod mod)
     {
-        Debug.Log("Loading OCB Crooked Deco/Tree Patch: " + GetType().ToString());
+        Log.Out("Loading OCB Crooked Deco/Tree Patch: " + GetType().ToString());
         new Harmony(GetType().ToString()).PatchAll(mod.MainAssembly);
-        ModEvents.GameStartDone.RegisterHandler(ReloadMapping);
+        // ModEvents.GameStartDone.RegisterHandler(ReloadMapping);
         PathSettings = mod.Path + "/Settings/";
         ReloadConfig();
     }
@@ -50,6 +52,18 @@ public class CrookedDeco : IModApi
             if (!file.EndsWith(".cfg")) continue;
             if (!File.Exists(file)) continue;
             CrookedParser.ParseMapping(file);
+        }
+    }
+
+    // Hook into specific event (whatever works)
+    // Note `ModEvents.GameStartDone` is too late!
+    [HarmonyPatch(typeof(GameManager))]
+    [HarmonyPatch("createWorld")]
+    public class CraftingManager_InitForNewGame
+    {
+        static void Prefix()
+        {
+            ReloadMapping();
         }
     }
 
@@ -218,6 +232,106 @@ public class CrookedDeco : IModApi
             _data.height *= StaticRandom.RangeSquare(0.9f, 1.3f, seed);
             StaticRandom.HashSeed(ref seed, Seed05);
             _data.sideShift += StaticRandom.RangeSquare(-.2f, .2f, seed);
+        }
+    }
+
+    // Code below is for BlockShapeNew
+
+    // Poor man's fix to save IL headache
+    static Vector3 CurrentScale = Vector3.one;
+
+    [HarmonyPatch(typeof(BlockShapeNew))]
+    [HarmonyPatch("renderFace")]
+    public static class BlockShapeNew_renderFace
+    {
+        static readonly ulong Seed00 = StaticRandom.RandomSeed();
+        static Quaternion DynamicRotation(Vector3 _blockPos, BlockValue _blockValue, Quaternion quat)
+        {
+            // if (Enabled == false) return;
+            if (_blockValue.Block.Properties.Values.TryGetString(
+                "DynamicTransform", out string dynamicTransform))
+            {
+                ulong seed = Seed00;
+                if (dynamicTransform.ToLower() == "none") return quat;
+                if (dynamicTransform.ToLower() == "report")
+                    Log.Warning("Reporting {0}", _blockValue.Block);
+                else if (Config.TryGetValue(dynamicTransform, out CrookedConfig config))
+                {
+                    bool toppled = config.IsToppled(_blockValue.rotation);
+                    StaticRandom.HashSeed(ref seed, _blockPos.x);
+                    StaticRandom.HashSeed(ref seed, _blockPos.y);
+                    StaticRandom.HashSeed(ref seed, _blockPos.z);
+                    CurrentScale = config.GetScale(seed); // Used later
+                    StaticRandom.HashSeed(ref seed, seed);
+                    if (config.GetRotation(toppled) is ICrookedVector rot)
+                        return quat * rot.GetRotation(seed);
+                }
+                else
+                {
+                    Log.Out("Crooked Type not found: {0}", dynamicTransform);
+                }
+            }
+            CurrentScale = Vector3.one;
+            return quat;
+        }
+        static IEnumerable<CodeInstruction> Transpiler(
+            IEnumerable<CodeInstruction> instructions)
+        {
+            var codes = new List<CodeInstruction>(instructions);
+            for (var i = 0; i < codes.Count; i++)
+            {
+                if (codes[i].opcode != OpCodes.Ldsfld) continue;
+                if (++i >= codes.Count) break;
+                if (codes[i].opcode != OpCodes.Ldarga_S) continue;
+                if (++i >= codes.Count) break;
+                if (codes[i].opcode != OpCodes.Call) continue;
+                if (!(codes[i].operand is MethodInfo met)) continue;
+                if (met.Name != "get_rotation") continue;
+                if (++i >= codes.Count) break;
+                if (codes[i].opcode != OpCodes.Ldelem) continue;
+                if (!(codes[i].operand is Type trf)) continue;
+                if (trf.FullName != "UnityEngine.Quaternion") continue;
+                if (++i >= codes.Count) break;
+                if (codes[i].opcode != OpCodes.Stloc_S) continue;
+                if (!(codes[i].operand is LocalVariableInfo vdf)) continue;
+                // if (vdf.LocalIndex != 28) continue;
+                if (++i >= codes.Count) break;
+                // Since we insert always at this position, you need to read the code from bottom to top ;)
+                MethodInfo method = AccessTools.Method(typeof(BlockShapeNew_renderFace), "DynamicRotation");
+                codes.Insert(i, new CodeInstruction(OpCodes.Stloc_S, vdf.LocalIndex)); // pop and store
+                codes.Insert(i, new CodeInstruction(OpCodes.Call, method)); // call function
+                codes.Insert(i, new CodeInstruction(OpCodes.Ldloc_S, vdf.LocalIndex)); // put quaternion
+                codes.Insert(i, new CodeInstruction(OpCodes.Ldarg_2)); // put blockValue
+                codes.Insert(i, new CodeInstruction(OpCodes.Ldarg_3)); // put drawPos
+                Log.Out(" Patched BlockShapeNew.renderFace rotation");
+                break;
+            }
+            for (var i = 0; i < codes.Count; i++)
+            {
+                if (codes[i].opcode != OpCodes.Ldloc_S) continue;
+                if (!(codes[i].operand is LocalVariableInfo vdf)) continue;
+                if (vdf.LocalIndex != 29) continue;
+                if (++i >= codes.Count) break;
+                if (codes[i].opcode != OpCodes.Call) continue;
+                if (!(codes[i].operand is MethodInfo met1)) continue;
+                if (met1.Name != "op_Addition") continue;
+                if (++i >= codes.Count) break;
+                if (codes[i].opcode != OpCodes.Call) continue;
+                if (!(codes[i].operand is MethodInfo met2)) continue;
+                if (met2.Name != "op_Multiply") continue;
+                if (++i >= codes.Count) break;
+                if (codes[i].opcode != OpCodes.Ldloc_S) continue;
+                if (!(codes[i].operand is LocalVariableInfo rdf)) continue;
+                if (rdf.LocalIndex != 30) continue;
+                // We don't remove the item from the stack, we re-use it
+                MethodInfo method = AccessTools.Method(typeof(Vector3), "Scale",
+                    new Type[] { typeof(Vector3), typeof(Vector3) });
+                codes.Insert(i-1, new CodeInstruction(OpCodes.Call, method)); // call function
+                FieldInfo field = AccessTools.Field(typeof(CrookedDeco), "CurrentScale");
+                codes.Insert(i - 1, new CodeInstruction(OpCodes.Ldsfld, field)); // put scale
+                Log.Out(" Patched BlockShapeNew.renderFace scaling");
+            }
+            return codes;
         }
     }
 

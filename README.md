@@ -14,6 +14,19 @@ candle in the picture below (vanilla game version).
 
 ![Original Trees and Grass](Screens/in-game-woods-original.jpg)
 
+Another good example are corn fields, where the repeating pattern is
+easily visible to the human eye. Only adding some slight variations
+to each plant makes it look much more pleasant. Additionally you can
+see the crooked Hay-Bales which also add some more realism (IMHO).
+I hope I don't have to tell you which one is which :)
+
+![Original Corn and Hay](Screens/in-game-barn-corn-off.jpg)
+![Crooked Corn and Hay](Screens/in-game-barn-corn-on.jpg)
+
+[![GitHub CI Compile Status][5]][4]
+
+## Block Variation Settings
+
 ## Block Variation Settings
 
 The whole setup can be configured via config files that life
@@ -77,6 +90,12 @@ created blocks will have the latest config applied.
 
 ## Changelog
 
+### Version 0.3.0
+
+- Add hooks for BlockShapeNew to support crooked corn
+- Change pseudo random number generator to xorshift*
+- Tone down crookedness of spike traps
+
 ### Version 0.2.0
 
 - Fix scales accumulating over time
@@ -92,3 +111,5 @@ I've developed and tested this Mod against version a20.3b3.
 [1]: https://github.com/OCB7D2D/A20BepInExPreloader
 [3]: Library/CrookedDecoCmd.cs
 [2]: Settings
+[4]: https://github.com/OCB7D2D/OcbBetterPlants/actions/workflows/ci.yml
+[5]: https://github.com/OCB7D2D/OcbBetterPlants/actions/workflows/ci.yml/badge.svg
