@@ -113,7 +113,6 @@
     <None Include="Settings\grills.cfg" />
     <None Include="Settings\gym.cfg" />
     <None Include="Settings\hay.cfg" />
-    <None Include="Settings\hoists.cfg" />
     <None Include="Settings\laundry.cfg" />
     <None Include="Settings\lookers.cfg" />
     <None Include="Settings\mailboxes.cfg" />
@@ -131,7 +130,6 @@
     <None Include="Settings\shopping.cfg" />
     <None Include="Settings\signs.shop.cfg" />
     <None Include="Settings\signs.street.cfg" />
-    <None Include="Settings\signs.wall.cfg" />
     <None Include="Settings\sofas.cfg" />
     <None Include="Settings\traps.spikes.cfg" />
     <None Include="Settings\trees.cfg" />
