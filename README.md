@@ -27,8 +27,6 @@ I hope I don't have to tell you which one is which :)
 
 ## Block Variation Settings
 
-## Block Variation Settings
-
 The whole setup can be configured via config files that life
 inside the [`Settings`][2] folder (files ending with `.cfg`). The
 setup has two phases, one is to configure the *variation types*.
@@ -111,5 +109,5 @@ I've developed and tested this Mod against version a20.3b3.
 [1]: https://github.com/OCB7D2D/A20BepInExPreloader
 [3]: Library/CrookedDecoCmd.cs
 [2]: Settings
-[4]: https://github.com/OCB7D2D/OcbBetterPlants/actions/workflows/ci.yml
-[5]: https://github.com/OCB7D2D/OcbBetterPlants/actions/workflows/ci.yml/badge.svg
+[4]: https://github.com/OCB7D2D/OcbCrookedDeco/actions/workflows/ci.yml
+[5]: https://github.com/OCB7D2D/OcbCrookedDeco/actions/workflows/ci.yml/badge.svg
