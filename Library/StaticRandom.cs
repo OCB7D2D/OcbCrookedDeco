@@ -28,12 +28,11 @@ namespace OCB
 
         public static ulong HashSeed(ulong seed, float value)
         {
-            // A mix between boost `hash_combine` and Knuth Hashing
-            // Pseudo randomness is really good enough for our use case
-            seed ^= ((((3074457345618258791ul + seed) * 2774457345618258799ul) +
-                DOUBLE2ULONG(value)) * 3374457345618258793ul) * 1387457109323358256ul;
-            seed ^= ((((3074457345618258791ul + seed) * 2774457345618258799ul) +
-                DOUBLE2ULONG(value)) * 3374457345618258795ul) * 1387457109323358256ul;
+            seed += DOUBLE2ULONG(value);
+            seed ^= seed << 12;
+            seed ^= seed >> 25;
+            seed ^= seed << 27;
+            seed *= 0x2545F4914F6CDD1DUL;
             return seed;
         }
 
