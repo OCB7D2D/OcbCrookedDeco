@@ -88,6 +88,10 @@ created blocks will have the latest config applied.
 
 ## Changelog
 
+### Version 0.4.0
+
+- Update compatibility for 7D2D A21.0(b313)
+
 ### Version 0.3.0
 
 - Add hooks for BlockShapeNew to support crooked corn

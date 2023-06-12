@@ -249,4 +249,24 @@ public class CrookedDecoCmd : ConsoleCmdAbstract
         }
 
     }
+
+    protected override string[] getCommands()
+    {
+        return new string[]
+        {
+            "reload",
+            "list",
+            "count",
+            "find",
+            "get",
+            "set",
+            "block",
+        };
+    }
+
+    protected override string getDescription()
+    {
+        return "Mess with crooked deco settings";
+    }
+
 }

@@ -18,7 +18,7 @@ public class CrookedDeco : IModApi
     public void InitMod(Mod mod)
     {
         Log.Out("Loading OCB Crooked Deco/Tree Patch: " + GetType().ToString());
-        new Harmony(GetType().ToString()).PatchAll(mod.MainAssembly);
+        new Harmony(GetType().ToString()).PatchAll(mod.AllAssemblies[0]);
         // ModEvents.GameStartDone.RegisterHandler(ReloadMapping);
         PathSettings = mod.Path + "/Settings/";
         ReloadConfig();
