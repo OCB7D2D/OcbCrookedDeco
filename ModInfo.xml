@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xml>
-	<ModInfo>
-		<Name value="CrookedDeco" />
-		<Description value="Add small randomness to various objects (e.g. trees, plants, signs etc.)." />
-		<Website value="https://github.com/OCB7D2D/OcbCrookedDeco" />
-		<Author value="ocbMaurice" />
-		<Version value="0.4.0" compat="A21"/>
-	</ModInfo>
+	<Name value="OcbCrookedDeco" />
+	<DisplayName value="OCB Crooked Deco" />
+	<Description value="Add small randomness to various objects (e.g. trees, plants, signs etc.)." />
+	<Website value="https://github.com/OCB7D2D/OcbCrookedDeco" />
+	<Author value="ocbMaurice" />
+	<Version value="0.4.1" />
 </xml>

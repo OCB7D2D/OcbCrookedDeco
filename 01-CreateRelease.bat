@@ -35,8 +35,8 @@ REM xcopy 98-install-bepinex.bat build\%NAME%\
 REM xcopy 99-uninstall-bepinex.sh build\%NAME%\
 REM xcopy 99-uninstall-bepinex.bat build\%NAME%\
 
-REM Copy mod specific settings folder
-xcopy settings build\%NAME%\settings\ /S
+REM Copy mod specific Settings folder
+xcopy settings build\%NAME%\Settings\ /S
 
 cd build
 echo Packaging %NAME%-%VERSION%.zip

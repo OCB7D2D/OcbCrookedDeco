@@ -88,6 +88,12 @@ created blocks will have the latest config applied.
 
 ## Changelog
 
+### Version 0.4.1
+
+- Fix issue with release zip archive for linux
+  Settings folder was packed in lower-case
+- Update ModInfo.xml to new V2 format
+
 ### Version 0.4.0
 
 - Update compatibility for 7D2D A21.0(b313)
