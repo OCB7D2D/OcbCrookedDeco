@@ -88,6 +88,11 @@ created blocks will have the latest config applied.
 
 ## Changelog
 
+### Version 0.4.2
+
+- Fix issue with short grass being to "pointy"
+- Avoid re-randomization when ground is damaged
+
 ### Version 0.4.1
 
 - Fix issue with release zip archive for linux
