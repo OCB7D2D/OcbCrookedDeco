@@ -108,6 +108,7 @@ namespace OCB
                     {
                         config.FnToppled = IsToppledFlat;
                     }
+                    else if (cfg == "" || cfg == "NONE") { }
                     else
                     {
                         pos = cfg.IndexOf('(');
@@ -230,6 +231,58 @@ namespace OCB
                                         throw new Exception("Invalid number of arguments for SCLXZ");
                                 }
                                 break;
+                            case "RX1":
+                                switch (numbers.Count)
+                                {
+                                    case 2:
+                                        config.Rotation = new CrookedVector3(
+                                            new CrookedAxis(numbers[0], numbers[1], StaticRandom.Range),
+                                            new CrookedAxis(0, 0, StaticRandom.Range),
+                                            new CrookedAxis(0, 0, StaticRandom.Range));
+                                        break;
+                                    default:
+                                        throw new Exception("Invalid number of arguments for RX1");
+                                }
+                                break;
+                            case "RY1":
+                                switch (numbers.Count)
+                                {
+                                    case 2:
+                                        config.Rotation = new CrookedVector3(
+                                            new CrookedAxis(0, 0, StaticRandom.Range),
+                                            new CrookedAxis(numbers[0], numbers[1], StaticRandom.Range),
+                                            new CrookedAxis(0, 0, StaticRandom.Range));
+                                        break;
+                                    default:
+                                        throw new Exception("Invalid number of arguments for RY1");
+                                }
+                                break;
+                            case "RZ1":
+                                switch (numbers.Count)
+                                {
+                                    case 2:
+                                        config.Rotation = new CrookedVector3(
+                                            new CrookedAxis(0, 0, StaticRandom.Range),
+                                            new CrookedAxis(0, 0, StaticRandom.Range),
+                                            new CrookedAxis(numbers[0], numbers[1], StaticRandom.Range));
+                                        break;
+                                    default:
+                                        throw new Exception("Invalid number of arguments for RZ1");
+                                }
+                                break;
+                            case "RX1Y1Z1":
+                                switch (numbers.Count)
+                                {
+                                    case 3:
+                                        config.Rotation = new CrookedVector3(
+                                            new CrookedAxis(-numbers[0] / 2, numbers[0] / 2, StaticRandom.Range),
+                                            new CrookedAxis(-numbers[1] / 2, numbers[1] / 2, StaticRandom.Range),
+                                            new CrookedAxis(-numbers[2] / 2, numbers[2] / 2, StaticRandom.Range));
+                                        break;
+                                    default:
+                                        throw new Exception("Invalid number of arguments for RX1Y1Z1");
+                                }
+                                break;
                             case "RX1Y2Z2":
                                 switch (numbers.Count)
                                 {
@@ -269,6 +322,45 @@ namespace OCB
                                         throw new Exception("Invalid number of arguments for RX2Y2Z1");
                                 }
                                 break;
+                            case "RX2Y1Z1":
+                                switch (numbers.Count)
+                                {
+                                    case 3:
+                                        config.Rotation = new CrookedVector3(
+                                            new CrookedAxis(-numbers[0] / 2, numbers[0] / 2, StaticRandom.RangeSquare),
+                                            new CrookedAxis(-numbers[1] / 2, numbers[1] / 2, StaticRandom.Range),
+                                            new CrookedAxis(-numbers[2] / 2, numbers[2] / 2, StaticRandom.Range));
+                                        break;
+                                    default:
+                                        throw new Exception("Invalid number of arguments for RX2Y1Z1");
+                                }
+                                break;
+                            case "RX1Y2Z1":
+                                switch (numbers.Count)
+                                {
+                                    case 3:
+                                        config.Rotation = new CrookedVector3(
+                                            new CrookedAxis(-numbers[0] / 2, numbers[0] / 2, StaticRandom.Range),
+                                            new CrookedAxis(-numbers[1] / 2, numbers[1] / 2, StaticRandom.RangeSquare),
+                                            new CrookedAxis(-numbers[2] / 2, numbers[2] / 2, StaticRandom.Range));
+                                        break;
+                                    default:
+                                        throw new Exception("Invalid number of arguments for RX1Y2Z1");
+                                }
+                                break;
+                            case "RX1Y1Z2":
+                                switch (numbers.Count)
+                                {
+                                    case 3:
+                                        config.Rotation = new CrookedVector3(
+                                            new CrookedAxis(-numbers[0] / 2, numbers[0] / 2, StaticRandom.Range),
+                                            new CrookedAxis(-numbers[1] / 2, numbers[1] / 2, StaticRandom.Range),
+                                            new CrookedAxis(-numbers[2] / 2, numbers[2] / 2, StaticRandom.RangeSquare));
+                                        break;
+                                    default:
+                                        throw new Exception("Invalid number of arguments for RX1Y1Z2");
+                                }
+                                break;
                             case "RX2Y2Z2":
                                 switch (numbers.Count)
                                 {
@@ -280,6 +372,19 @@ namespace OCB
                                         break;
                                     default:
                                         throw new Exception("Invalid number of arguments for RX2Y2Z2");
+                                }
+                                break;
+                            case "ARX1Y1Z1":
+                                switch (numbers.Count)
+                                {
+                                    case 3:
+                                        config.AltRotation = new CrookedVector3(
+                                            new CrookedAxis(-numbers[0] / 2, numbers[0] / 2, StaticRandom.Range),
+                                            new CrookedAxis(-numbers[1] / 2, numbers[1] / 2, StaticRandom.Range),
+                                            new CrookedAxis(-numbers[2] / 2, numbers[2] / 2, StaticRandom.Range));
+                                        break;
+                                    default:
+                                        throw new Exception("Invalid number of arguments for ARX1Y1Z1");
                                 }
                                 break;
                             case "ARX1Y2Z2":
@@ -319,6 +424,45 @@ namespace OCB
                                         break;
                                     default:
                                         throw new Exception("Invalid number of arguments for ARX2Y2Z1");
+                                }
+                                break;
+                            case "ARX2Y1Z1":
+                                switch (numbers.Count)
+                                {
+                                    case 3:
+                                        config.AltRotation = new CrookedVector3(
+                                            new CrookedAxis(-numbers[0] / 2, numbers[0] / 2, StaticRandom.RangeSquare),
+                                            new CrookedAxis(-numbers[1] / 2, numbers[1] / 2, StaticRandom.Range),
+                                            new CrookedAxis(-numbers[2] / 2, numbers[2] / 2, StaticRandom.Range));
+                                        break;
+                                    default:
+                                        throw new Exception("Invalid number of arguments for ARX2Y1Z1");
+                                }
+                                break;
+                            case "ARX1Y2Z1":
+                                switch (numbers.Count)
+                                {
+                                    case 3:
+                                        config.AltRotation = new CrookedVector3(
+                                            new CrookedAxis(-numbers[0] / 2, numbers[0] / 2, StaticRandom.Range),
+                                            new CrookedAxis(-numbers[1] / 2, numbers[1] / 2, StaticRandom.RangeSquare),
+                                            new CrookedAxis(-numbers[2] / 2, numbers[2] / 2, StaticRandom.Range));
+                                        break;
+                                    default:
+                                        throw new Exception("Invalid number of arguments for ARX1Y2Z1");
+                                }
+                                break;
+                            case "ARX1Y1Z2":
+                                switch (numbers.Count)
+                                {
+                                    case 3:
+                                        config.AltRotation = new CrookedVector3(
+                                            new CrookedAxis(-numbers[0] / 2, numbers[0] / 2, StaticRandom.Range),
+                                            new CrookedAxis(-numbers[1] / 2, numbers[1] / 2, StaticRandom.Range),
+                                            new CrookedAxis(-numbers[2] / 2, numbers[2] / 2, StaticRandom.RangeSquare));
+                                        break;
+                                    default:
+                                        throw new Exception("Invalid number of arguments for ARX1Y1Z2");
                                 }
                                 break;
                             case "ARX2Y2Z2":
