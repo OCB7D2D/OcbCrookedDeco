@@ -7,6 +7,13 @@ using UnityEngine;
 using System.Reflection.Emit;
 using System.Reflection;
 
+using DynamicMusic;
+using GamePath;
+using MusicUtils.Enums;
+using System;
+using UnityEngine;
+using UnityEngine.Windows;
+
 public class CrookedDeco : IModApi
 {
 
@@ -335,6 +342,52 @@ public class CrookedDeco : IModApi
                 Log.Out(" Patched BlockShapeNew.renderFace scaling");
             }
             return codes;
+        }
+    }
+
+    [HarmonyPatch(typeof(NGuiWdwDebugPanels))]
+    [HarmonyPatch("showDebugPanel_FocusedBlock")]
+    public static class FocusedBlockDebugPatch
+    {
+        static void Postfix(NGuiWdwDebugPanels __instance, int x, int y, bool forceDisplay, bool forceFocusedBlock,
+            EntityPlayerLocal ___playerEntity, bool ___bDebugFocusedBlockEnabled, GUIStyle ___guiStyleDebug, ref int __result)
+        {
+            if (!___bDebugFocusedBlockEnabled && !forceDisplay) return;
+            WorldRayHitInfo hitInfo = ___playerEntity.inventory.holdingItemData.hitInfo;
+            Vector3i _blockPos = UnityEngine.Input.GetKey(KeyCode.LeftShift) | forceFocusedBlock ? hitInfo.hit.blockPos : hitInfo.lastBlockPos;
+            var world = GameManager.Instance.World;
+            if (world == null) return;
+            ChunkCluster chunkCluster = world.ChunkClusters[hitInfo.hit.clrIdx];
+            if (chunkCluster == null) return;
+            Chunk chunkFromWorldPos = (Chunk)chunkCluster.GetChunkFromWorldPos(_blockPos);
+            if (chunkFromWorldPos == null) return;
+            int blockXz1 = World.toBlockXZ(_blockPos.x);
+            int blockY = World.toBlockY(_blockPos.y);
+            int blockXz2 = World.toBlockXZ(_blockPos.z);
+            BlockValue bv = chunkFromWorldPos.GetBlock(blockXz1, blockY, blockXz2);
+            GUI.Box(new Rect(x, __result, 260, 42), "");
+            GUI.color = Color.yellow;
+            GUI.Label(new Rect(x + 5, __result, 200f, 25f), "Crooked Deco");
+            __result += 21;
+            GUI.color = Color.white;
+            // Check if we have a dynamic transform config
+            if (bv.Block.Properties.Values.TryGetString(
+                "DynamicTransform", out string dynamicTransform))
+            {
+                Utils.DrawOutline(new Rect(x + 5, __result, 200f, 25f),
+                    "Config: " + dynamicTransform.ToString(),
+                    ___guiStyleDebug, Color.black, Color.white);
+                __result += 16;
+            }
+            else
+            {
+                Utils.DrawOutline(new Rect(x + 5, __result, 200f, 25f),
+                    "No crooked deco config", ___guiStyleDebug,
+                    Color.black, Color.white);
+                __result += 16;
+            }
+            __result += 10;
+
         }
     }
 
