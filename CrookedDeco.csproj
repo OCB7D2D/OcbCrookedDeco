@@ -85,6 +85,12 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>$(PATH_7D2D_MANAGED)\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>$(PATH_7D2D_MANAGED)\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>$(PATH_7D2D_MANAGED)\UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Harmony\CrookedDeco.cs" />
@@ -100,18 +106,29 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\blocks.xml" />
+    <Content Include="ModInfo.xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="README.md" />
     <None Include="Settings\appliances.cfg" />
     <None Include="Settings\bags.cfg" />
     <None Include="Settings\barrels.cfg" />
     <None Include="Settings\beds.cfg" />
+    <None Include="Settings\blinds.cfg" />
     <None Include="Settings\birdnests.cfg" />
     <None Include="Settings\boulders.cfg" />
     <None Include="Settings\cabinets.cfg" />
     <None Include="Settings\cactuses.cfg" />
     <None Include="Settings\cars.cfg" />
     <None Include="Settings\caskets.cfg" />
+    <None Include="Settings\potty.cfg" />
+    <None Include="Settings\ground.cfg" />
+    <None Include="Settings\rocks.cfg" />
+    <None Include="Settings\chests.cfg" />
+    <None Include="Settings\garbage.cfg" />
+    <None Include="Settings\clocks.cfg" />
+    <None Include="Settings\racks.cfg" />
+    <None Include="Settings\hedge.cfg" />
     <None Include="Settings\chairs.cfg" />
     <None Include="Settings\computers.cfg" />
     <None Include="Settings\coolers.cfg" />
@@ -127,6 +144,7 @@
     <None Include="Settings\paintings.cfg" />
     <None Include="Settings\pallets.cfg" />
     <None Include="Settings\parking.cfg" />
+    <None Include="Settings\potted.cfg" />
     <None Include="Settings\pets.cfg" />
     <None Include="Settings\piles.cfg" />
     <None Include="Settings\plants.cfg" />
@@ -137,6 +155,8 @@
     <None Include="Settings\shopping.cfg" />
     <None Include="Settings\signs.shop.cfg" />
     <None Include="Settings\signs.street.cfg" />
+    <None Include="Settings\tires.cfg" />
+    <None Include="Settings\trash.cfg" />
     <None Include="Settings\sofas.cfg" />
     <None Include="Settings\traps.spikes.cfg" />
     <None Include="Settings\trees.cfg" />

@@ -86,12 +86,20 @@ created blocks will have the latest config applied.
 - `crd set ${type} ...`: Set options for `type`
 - `crd block ${block} ${type}`: Set `block` to `type`
 
+## Debug Mode F3 Panel Info
+
+Use the debug mode (console `dm`) and F3 info panel
+to see which crooked type a certain block has. Remember
+to press left-shift to target the actual focused block.
+
 ## Changelog
 
 ### Version 0.4.2
 
 - Fix issue with short grass being to "pointy"
 - Avoid re-randomization when ground is damaged
+- Add crooking configs for 419 additional blocks
+- Add crooked config info to F3 debug mode panel
 
 ### Version 0.4.1
 
