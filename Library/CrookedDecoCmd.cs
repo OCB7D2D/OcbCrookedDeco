@@ -39,7 +39,7 @@ public class CrookedDecoCmd : ConsoleCmdAbstract
                 case "list":
                     Log.Out("Listing all crooked types:");
                     foreach (var pair in CrookedDeco.Config)
-                        Log.Out("  {0} (Pass {1}",
+                        Log.Out("  {0} (Pass {1})",
                             pair.Key, pair.Value.Pass);
                     break;
                 case "reload":
