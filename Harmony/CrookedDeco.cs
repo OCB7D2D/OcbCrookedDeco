@@ -91,7 +91,7 @@ public class CrookedDeco : IModApi
         int Pass)
     {
         if (_ebcd.transform == null) return;
-        if (_blockValue.Block.Properties.Values.TryGetString(
+        if (_blockValue.Block.Properties.Values.TryGetValue(
             "DynamicTransform", out string dynamicTransform))
         {
             if (dynamicTransform.ToLower() == "none") return;
@@ -251,7 +251,7 @@ public class CrookedDeco : IModApi
         static Quaternion DynamicRotation(Vector3 _blockPos, BlockValue _blockValue, Quaternion quat)
         {
             // if (Enabled == false) return;
-            if (_blockValue.Block.Properties.Values.TryGetString(
+            if (_blockValue.Block.Properties.Values.TryGetValue(
                 "DynamicTransform", out string dynamicTransform))
             {
                 ulong seed = Seed00;
@@ -338,14 +338,14 @@ public class CrookedDeco : IModApi
         }
     }
 
-    [HarmonyPatch(typeof(NGuiWdwDebugPanels))]
-    [HarmonyPatch("showDebugPanel_FocusedBlock")]
+    [HarmonyPatch(typeof(NGuiWdwDebugPanels), "showDebugPanel_FocusedBlock")]
+    [HarmonyPatch(new Type[] { typeof(int), typeof(int), typeof(bool) })]
     public static class FocusedBlockDebugPatch
     {
-        static void Postfix(NGuiWdwDebugPanels __instance, int x, int y, bool forceDisplay, bool forceFocusedBlock,
-            EntityPlayerLocal ___playerEntity, bool ___bDebugFocusedBlockEnabled, GUIStyle ___guiStyleDebug, ref int __result)
+        static void Postfix(NGuiWdwDebugPanels __instance, int x, int y, bool forceFocusedBlock,
+            EntityPlayerLocal ___playerEntity, GUIStyle ___guiStyleDebug, ref int __result)
         {
-            if (!___bDebugFocusedBlockEnabled && !forceDisplay) return;
+            // if (!___bDebugFocusedBlockEnabled && !forceDisplay) return;
             WorldRayHitInfo hitInfo = ___playerEntity.inventory.holdingItemData.hitInfo;
             Vector3i _blockPos = UnityEngine.Input.GetKey(KeyCode.LeftShift) | forceFocusedBlock ? hitInfo.hit.blockPos : hitInfo.lastBlockPos;
             var world = GameManager.Instance.World;
@@ -364,7 +364,7 @@ public class CrookedDeco : IModApi
             __result += 21;
             GUI.color = Color.white;
             // Check if we have a dynamic transform config
-            if (bv.Block.Properties.Values.TryGetString(
+            if (bv.Block.Properties.Values.TryGetValue(
                 "DynamicTransform", out string dynamicTransform))
             {
                 Utils.DrawOutline(new Rect(x + 5, __result, 200f, 25f),

@@ -1,4 +1,4 @@
-# OCB Crooked Deco Modlet - 7 Days to Die Addon
+# OCB Crooked Deco Mod - 7 Days to Die (V1.0 exp) Addon
 
 This mod adds (small) random variations to decorations and blocks.
 It alters scale and rotation for configured blocks within certain
@@ -92,7 +92,19 @@ Use the debug mode (console `dm`) and F3 info panel
 to see which crooked type a certain block has. Remember
 to press left-shift to target the actual focused block.
 
+### Download and Install
+
+End-Users are encouraged to download my mods from [NexusMods][4].  
+Every download there helps me to buy stuff for mod development.
+
+Otherwise please use one of the [official releases][1] here.  
+Only clone or download the repo if you know what you do!
+
 ## Changelog
+
+### Version 0.5.0
+
+- First compatibility with V1.0 (exp)
 
 ### Version 0.4.2
 
@@ -124,10 +136,6 @@ to press left-shift to target the actual focused block.
 ### Version 0.1.0
 
 - Initial version
-
-## Compatibility
-
-I've developed and tested this Mod against version a20.3b3.
 
 [1]: https://github.com/OCB7D2D/A20BepInExPreloader
 [3]: Library/CrookedDecoCmd.cs

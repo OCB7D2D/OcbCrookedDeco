@@ -78,7 +78,7 @@ public class CrookedDecoCmd : ConsoleCmdAbstract
                     foreach (var block in Block.list)
                     {
                         if (block.Properties == null || block.Properties.Values == null) continue;
-                        if (block.Properties.Values.TryGetString("DynamicTransform", out string type))
+                        if (block.Properties.Values.TryGetValue("DynamicTransform", out string type))
                         {
                             if (type != _params[1]) continue;
                             Log.Out("  - {0}", block);
@@ -250,7 +250,7 @@ public class CrookedDecoCmd : ConsoleCmdAbstract
 
     }
 
-    protected override string[] getCommands()
+    public override string[] getCommands()
     {
         return new string[]
         {
@@ -264,7 +264,7 @@ public class CrookedDecoCmd : ConsoleCmdAbstract
         };
     }
 
-    protected override string getDescription()
+    public override string getDescription()
     {
         return "Mess with crooked deco settings";
     }
