@@ -40,7 +40,7 @@ xcopy settings build\%NAME%\Settings\ /S
 
 cd build
 echo Packaging %NAME%-%VERSION%.zip
-powershell Compress-Archive %NAME% %NAME%-%VERSION%.zip -Force
+powershell Compress-Archive %NAME% %NAME%-%VERSION%-V2.0.zip -Force
 cd ..
 
 SET RV=%ERRORLEVEL%
