@@ -1,4 +1,4 @@
-# OCB Crooked Deco Mod - 7 Days to Die (V2.0) Addon
+# OCB Crooked Deco Mod - 7 Days to Die (V2.1) Addon
 
 This mod adds (small) random variations to decorations and blocks.
 It alters scale and rotation for configured blocks within certain
