@@ -281,6 +281,7 @@ public class CrookedDeco : IModApi
             IEnumerable<CodeInstruction> instructions)
         {
             var codes = new List<CodeInstruction>(instructions);
+            bool rotationPatched = false;
             for (var i = 0; i < codes.Count; i++)
             {
                 if (codes[i].opcode != OpCodes.Ldsfld) continue;
@@ -307,13 +308,21 @@ public class CrookedDeco : IModApi
                 codes.Insert(i, new CodeInstruction(OpCodes.Ldarg_2)); // put blockValue
                 codes.Insert(i, new CodeInstruction(OpCodes.Ldarg_3)); // put drawPos
                 Log.Out(" Patched BlockShapeNew.renderFace rotation");
+                rotationPatched = true;
                 break;
             }
+            if (!rotationPatched)
+                Log.Warning(" BlockShapeNew.renderFace rotation patch did not match - random deco rotation will not apply");
+            // 7DTD 3.2 port: this used to require local slots 29 and 30 exactly. In 3.2 the identical
+            // sequence (ldloc Vector3; Vector3 + ; Quaternion * ; ldloc Vector3) uses slots 8 and 9, so
+            // the scaling patch silently never applied. Match on the instruction sequence and the local
+            // variable types instead of slot numbers, and warn if it doesn't match exactly once.
+            int scalingPatches = 0;
             for (var i = 0; i < codes.Count; i++)
             {
                 if (codes[i].opcode != OpCodes.Ldloc_S) continue;
                 if (!(codes[i].operand is LocalVariableInfo vdf)) continue;
-                if (vdf.LocalIndex != 29) continue;
+                if (vdf.LocalType != typeof(Vector3)) continue;
                 if (++i >= codes.Count) break;
                 if (codes[i].opcode != OpCodes.Call) continue;
                 if (!(codes[i].operand is MethodInfo met1)) continue;
@@ -325,15 +334,19 @@ public class CrookedDeco : IModApi
                 if (++i >= codes.Count) break;
                 if (codes[i].opcode != OpCodes.Ldloc_S) continue;
                 if (!(codes[i].operand is LocalVariableInfo rdf)) continue;
-                if (rdf.LocalIndex != 30) continue;
+                if (rdf.LocalType != typeof(Vector3)) continue;
                 // We don't remove the item from the stack, we re-use it
                 MethodInfo method = AccessTools.Method(typeof(Vector3), "Scale",
                     new Type[] { typeof(Vector3), typeof(Vector3) });
                 codes.Insert(i-1, new CodeInstruction(OpCodes.Call, method)); // call function
                 FieldInfo field = AccessTools.Field(typeof(CrookedDeco), "CurrentScale");
                 codes.Insert(i - 1, new CodeInstruction(OpCodes.Ldsfld, field)); // put scale
-                Log.Out(" Patched BlockShapeNew.renderFace scaling");
+                i += 2; // skip past the two instructions just inserted
+                scalingPatches++;
+                Log.Out(" Patched BlockShapeNew.renderFace scaling (locals {0}/{1})", vdf.LocalIndex, rdf.LocalIndex);
             }
+            if (scalingPatches != 1)
+                Log.Warning(" BlockShapeNew.renderFace scaling patch matched {0} times (expected 1) - random deco scaling may not apply", scalingPatches);
             return codes;
         }
     }
@@ -346,11 +359,15 @@ public class CrookedDeco : IModApi
             EntityPlayerLocal ___playerEntity, GUIStyle ___guiStyleDebug, ref int __result)
         {
             // if (!___bDebugFocusedBlockEnabled && !forceDisplay) return;
-            WorldRayHitInfo hitInfo = ___playerEntity.inventory.holdingItemData.hitInfo;
+            // 7DTD 3.x: hit info moved from inventory.holdingItemData.hitInfo to EntityAlive.HitInfo, and
+            // the world has a single ChunkCache instead of multiple ChunkClusters indexed by hit.clrIdx
+            // (matches vanilla 3.2's own showDebugPanel_FocusedBlock).
+            if (___playerEntity == null || !___playerEntity.HitInfo.bHitValid) return;
+            WorldRayHitInfo hitInfo = ___playerEntity.HitInfo;
             Vector3i _blockPos = UnityEngine.Input.GetKey(KeyCode.LeftShift) | forceFocusedBlock ? hitInfo.hit.blockPos : hitInfo.lastBlockPos;
             var world = GameManager.Instance.World;
             if (world == null) return;
-            ChunkCluster chunkCluster = world.ChunkClusters[hitInfo.hit.clrIdx];
+            ChunkCluster chunkCluster = world.ChunkCache;
             if (chunkCluster == null) return;
             Chunk chunkFromWorldPos = (Chunk)chunkCluster.GetChunkFromWorldPos(_blockPos);
             if (chunkFromWorldPos == null) return;
